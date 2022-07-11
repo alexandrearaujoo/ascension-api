@@ -1,3 +1,28 @@
 from django.db import models
+import uuid
 
-# Create your models here.
+
+class TypeChoices(models.TextChoices):
+    SWORD = ("SW", "Sword")
+    BOW = ("BOW", "Bow")
+    SHIELD = ("SH", "Shield")
+    AXE = ("AXE", "Axe")
+    ARMOR = ("AR", "Armor")
+    LEGS = ("LE", "Legs")
+
+
+class Item(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=50)
+    type = models.CharField(choices=TypeChoices.choices)
+    price = models.IntegerField()
+    level_requires = models.IntegerField(default=0)
+    artisan = models.ForeignKey(
+        "artisans.Artisan", on_delete=models.SET_NULL, related_name="items"
+    )
+    character = models.ForeignKey(
+        "characters.Character", on_delete=models.SET_NULL, related_name="items"
+    )
+
+    def __str__(self):
+        return self.name
