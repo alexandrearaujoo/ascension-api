@@ -9,14 +9,9 @@ from .serializer import CharacterLoginSerializer, CharacterSerializer
 from .models import Character
 
 
-class CreateCharacterView(generics.CreateAPIView):
-    queryset = Character.objects.all()
-    serializer_class = CharacterSerializer
-
-
-class ListAllUserView(generics.ListAPIView):
+class ListCreateUserView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdmin]
+    permission_classes = [IsAdmin, isAccountOwner]
 
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
