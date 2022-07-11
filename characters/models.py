@@ -9,7 +9,11 @@ class Character(models.Model):
     gold = models.IntegerField(default=0)
 
     patron = models.ForeignKey(
-        "patrons.Patron", on_delete=models.DO_NOTHING, related_name="characters"
+        "patrons.Patron",
+        on_delete=models.DO_NOTHING,
+        related_name="characters",
     )
 
-    missions = models.ManyToManyField('missions.Missions', related_name='characters')
+    missions = models.ManyToManyField(
+        "missions.Missions", related_name="characters"
+    )
