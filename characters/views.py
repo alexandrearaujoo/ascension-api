@@ -22,19 +22,12 @@ class ListAllUserView(generics.ListAPIView):
     serializer_class = CharacterSerializer
 
 
-class ListDetailCharacterView(APIView):
+class ListDetailCharacterView(generics.RetrieveAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [isAccountOwner]
 
-    def get(self, request, character_id):
-        try:
-            character = Character.objects.get(pk=character_id)
-        except Character.DoesNotExist:
-            return Response({"message": "Character not found"})
-
-        serializer = CharacterSerializer(character)
-
-        return Response(serializer.data)
+    queryset = Character.objects.all()
+    serializer_class = CharacterSerializer
 
 
 class LoginCharacterView(APIView):
