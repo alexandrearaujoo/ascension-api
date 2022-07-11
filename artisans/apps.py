@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class ArtisansConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'artisans'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "artisans"
