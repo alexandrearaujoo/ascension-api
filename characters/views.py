@@ -22,7 +22,7 @@ class ListAllUserView(generics.ListAPIView):
     serializer_class = CharacterSerializer
 
 
-class ListDetailCharacterView(generics.RetrieveAPIView):
+class RetrieveUpdateDeleteCharacterView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [isAccountOwner]
 
