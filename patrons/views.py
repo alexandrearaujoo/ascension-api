@@ -7,20 +7,23 @@ from django.contrib.auth import authenticate
 
 from .permissions import IsAdminOrReadOnly
 from .models import Patron
-from .serializer import PatronSerializer
+from .serializer import PatronLoginSerializer, PatronSerializer
 
+class CreatePatronView(generics.CreateAPIView):
+    queryset = Patron.objects.all()
+    serializer_class = PatronSerializer
 
-class ListCreatePatronView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminOrReadOnly]
 
+class ListPatronView(generics.ListAPIView):
     queryset = Patron.objects.all()
     serializer_class = PatronSerializer
 
 
 class LoginPatronView(APIView):
     def post(self, request):
-        serializer = PatronSerializer(data=request.data)
+        serializer = PatronLoginSerializer(data=request.data)
 
         serializer.is_valid(raise_exception=True)
 
@@ -29,8 +32,9 @@ class LoginPatronView(APIView):
             password=serializer.validated_data["password"],
         )
 
+
         if patron:
-            token, _ = Token.objects.get_or_create(patron=patron)
+            token, _ = Token.objects.get_or_create(user=patron)
 
             return Response({"token": token.key})
 

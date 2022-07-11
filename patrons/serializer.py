@@ -6,8 +6,11 @@ from .models import Patron
 class PatronSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patron
-        fields = "__all__"
+        fields = ["id", 'username','password','classification']
         extra_kwargs = {"password": {"write_only": True}}
+
+    def create(self, validated_data):
+        return Patron.objects.create_superuser(**validated_data)
 
 
 class PatronLoginSerializer(serializers.Serializer):
