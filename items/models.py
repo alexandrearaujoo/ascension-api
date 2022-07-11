@@ -16,7 +16,7 @@ class Item(models.Model):
     name = models.CharField(max_length=50)
     type = models.CharField(choices=TypeChoices.choices)
     price = models.IntegerField()
-    level_requires = models.IntegerField(default=0)
+    level_required = models.IntegerField(default=0)
     artisan = models.ForeignKey(
         "artisans.Artisan", on_delete=models.SET_NULL, related_name="items"
     )
