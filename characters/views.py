@@ -1,3 +1,58 @@
 from django.shortcuts import render
+from rest_framework import generics
+from rest_framework.views import APIView, Response, status
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
+from .permissions import IsAdmin, IsAccountOwnerOrReadOnly, isAccountOwner
+from .serializer import CharacterLoginSerializer, CharacterSerializer
+from .models import Character
 
-# Create your views here.
+
+class CreateCharacterView(generics.CreateAPIView):
+    queryset = Character.objects.all()
+    serializer_class = CharacterSerializer
+
+
+class ListAllUserView(generics.ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdmin]
+
+    queryset = Character.objects.all()
+    serializer_class = CharacterSerializer
+
+
+class ListDetailCharacterView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [isAccountOwner]
+
+    def get(self, request, character_id):
+        try:
+            character = Character.objects.get(pk=character_id)
+        except Character.DoesNotExist:
+            return Response({"message": "Character not found"})
+
+        serializer = CharacterSerializer(character)
+
+        return Response(serializer.data)
+
+
+class LoginCharacterView(APIView):
+    def post(self, request):
+        serializer = CharacterLoginSerializer(data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+
+        character = authenticate(
+            username=serializer.validated_data["username"],
+            password=serializer.validated_data["password"],
+        )
+
+        if character:
+            token, _ = Token.objects.get_or_create(user=character)
+
+            return Response({"token": token.key})
+
+        return Response(
+            {"message": "Invalid credentials"}, status.HTTP_401_UNAUTHORIZED
+        )
