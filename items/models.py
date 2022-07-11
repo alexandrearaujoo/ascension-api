@@ -18,9 +18,9 @@ class Item(models.Model):
     price = models.IntegerField()
     level_requires = models.IntegerField(default=0)
     artisan = models.ForeignKey(
-        "artisans.Artisan", on_delete=models.SET_NULL, related_name="items", null=True
+        "artisans.Artisan", on_delete=models.DO_NOTHING, related_name="items"
     )
-    character = models.ForeignKey(
+    owner = models.ForeignKey(
         "characters.Character", on_delete=models.SET_NULL, related_name="items", null=True
     )
 
