@@ -12,3 +12,5 @@ class Missions(models.Model):
     created_by = models.ForeignKey(
         "patrons.Patron", on_delete=models.CASCADE, related_name="mission"
     )
+
+    
