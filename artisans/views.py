@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from .serializers import ArtisanSerializer
+from .models import Artisan
+
+
+class ArtisanList(generics.ListAPIView):
+    serializer_class = ArtisanSerializer
+    queryset = Artisan.objects.all()
