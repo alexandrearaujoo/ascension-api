@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from .models import Character
 
-from Patrons.serializer import PatronSerializer
+from patrons.serializer import PatronSerializer
 
 
 class CharacterSerializer(serializers.ModelSerializer):
