@@ -43,7 +43,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+<<<<<<< HEAD
     "rest_framework.authtoken",
+=======
+    'rest_framework.authtoken',
+>>>>>>> 9039b30fa121ca45d2db5ce482a887773949f426
     "artisans",
     "characters",
     "items",
