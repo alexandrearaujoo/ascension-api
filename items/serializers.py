@@ -18,6 +18,6 @@ class ItemSerializer(serializers.ModelSerializer):
             "price",
             "level_required",
             "owner",
-            "artisan"
+            "artisan",
         ]
         read_only_fields = ["id", "artisan"]
