@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 
-from patrons.models import Patron
+from accounts.models import Patron
 
 from .permissions import MissionsCustomPermissions
 

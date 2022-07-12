@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView, Response, status
@@ -6,36 +5,36 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 
 from .permissions import IsAdminOrReadOnly
-from .models import Patron
-from .serializer import PatronLoginSerializer, PatronSerializer
+from .models import Account
+from .serializer import AccountLoginSerializer, AccountSerializer
 
 
 class CreatePatronView(generics.CreateAPIView):
-    queryset = Patron.objects.all()
-    serializer_class = PatronSerializer
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
 
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminOrReadOnly]
 
 
-class ListPatronView(generics.ListAPIView):
-    queryset = Patron.objects.all()
-    serializer_class = PatronSerializer
+class ListAccountView(generics.ListAPIView):
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
 
 
-class LoginPatronView(APIView):
+class LoginAccountView(APIView):
     def post(self, request):
-        serializer = PatronLoginSerializer(data=request.data)
+        serializer = AccountLoginSerializer(data=request.data)
 
         serializer.is_valid(raise_exception=True)
 
-        patron = authenticate(
+        account = authenticate(
             username=serializer.validated_data["username"],
             password=serializer.validated_data["password"],
         )
 
-        if patron:
-            token, _ = Token.objects.get_or_create(user=patron)
+        if account:
+            token, _ = Token.objects.get_or_create(user=account)
 
             return Response({"token": token.key})
 

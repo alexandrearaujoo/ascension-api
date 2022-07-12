@@ -10,7 +10,7 @@ class ClassificationChoices(models.TextChoices):
 
 
 # Create your models here.
-class Patron(AbstractUser):
+class Account(AbstractUser):
     username = models.CharField(max_length=50, unique=True)
     classification = models.CharField(
         max_length=50,

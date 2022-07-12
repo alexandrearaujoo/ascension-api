@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.core.validators import MinValueValidator
 
-from patrons.serializer import PatronInMissionsSerializer
+from accounts.serializer import PatronInMissionsSerializer
 
 from .models import Missions
 

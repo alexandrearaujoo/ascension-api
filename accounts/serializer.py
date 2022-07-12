@@ -1,23 +1,23 @@
 from rest_framework import serializers
 
-from .models import Patron
+from .models import Account
 
-class PatronInMissionsSerializer(serializers.ModelSerializer):
+class AccountInMissionsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Patron
+        model = Account
         fields = ['username']
 
 
-class PatronSerializer(serializers.ModelSerializer):
+class AccountSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Patron
+        model = Account
         fields = ["id", 'username','password','classification']
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        return Patron.objects.create_superuser(**validated_data)
+        return Account.objects.create_superuser(**validated_data)
 
 
-class PatronLoginSerializer(serializers.Serializer):
+class AccountLoginSerializer(serializers.Serializer):
     username = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True)
