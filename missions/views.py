@@ -10,6 +10,7 @@ from missions.serializers import MissionSerializer
 
 from .models import Missions
 
+
 class ListCreateMissionView(generics.ListCreateAPIView):
     queryset = Missions.objects.all()
     serializer_class = MissionSerializer
@@ -18,6 +19,7 @@ class ListCreateMissionView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
+
 
 class UpdateMissionView(generics.RetrieveUpdateAPIView):
     queryset = Missions.objects.all()

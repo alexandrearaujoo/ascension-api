@@ -9,12 +9,14 @@ from .permissions import IsAdminOrReadOnly
 from .models import Patron
 from .serializer import PatronLoginSerializer, PatronSerializer
 
+
 class CreatePatronView(generics.CreateAPIView):
     queryset = Patron.objects.all()
     serializer_class = PatronSerializer
 
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminOrReadOnly]
+
 
 class ListPatronView(generics.ListAPIView):
     queryset = Patron.objects.all()
