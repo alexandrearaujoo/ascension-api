@@ -14,14 +14,17 @@ class TypeChoices(models.TextChoices):
 class Item(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=50)
-    type = models.CharField(max_length=50,choices=TypeChoices.choices)
+    type = models.CharField(max_length=50, choices=TypeChoices.choices)
     price = models.IntegerField()
-    level_requires = models.IntegerField(default=0)
+    level_required = models.IntegerField(default=0)
     artisan = models.ForeignKey(
         "artisans.Artisan", on_delete=models.DO_NOTHING, related_name="items"
     )
     owner = models.ForeignKey(
-        "characters.Character", on_delete=models.SET_NULL, related_name="items", null=True
+        "characters.Character",
+        on_delete=models.SET_NULL,
+        related_name="items",
+        null=True,
     )
 
     def __str__(self):

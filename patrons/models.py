@@ -18,6 +18,6 @@ class Patron(AbstractUser):
         default=ClassificationChoices.ANGEL,
     )
 
-    REQUIRED_FIELDS = [classification]
+    REQUIRED_FIELDS = ["classification"]
 
     objects = CustomUserManager()

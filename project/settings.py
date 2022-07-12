@@ -42,13 +42,18 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'rest_framework',
-    'artisans',
-    'characters',
-    'items',
-    'missions',
-    'patrons',
-    'drf_spectacular'
+    "rest_framework",
+<<<<<<< HEAD
+    "rest_framework.authtoken",
+=======
+    'rest_framework.authtoken',
+>>>>>>> 9039b30fa121ca45d2db5ce482a887773949f426
+    "artisans",
+    "characters",
+    "items",
+    "missions",
+    "patrons",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -153,4 +158,4 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = 'patrons.Patron'
+AUTH_USER_MODEL = "patrons.Patron"

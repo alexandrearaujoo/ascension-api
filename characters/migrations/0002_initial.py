@@ -8,14 +8,16 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('characters', '0001_initial'),
-        ('missions', '0001_initial'),
+        ("characters", "0001_initial"),
+        ("missions", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='character',
-            name='missions',
-            field=models.ManyToManyField(related_name='characters', to='missions.missions'),
+            model_name="character",
+            name="missions",
+            field=models.ManyToManyField(
+                related_name="characters", to="missions.missions"
+            ),
         ),
     ]
