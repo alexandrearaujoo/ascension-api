@@ -10,9 +10,9 @@ class Character(models.Model):
     gold = models.IntegerField(default=0)
     health_points = models.IntegerField(default=100)
 
-    strength = models.IntegerField(default=0)
-    intellect = models.IntegerField(default=0)
-    agility = models.IntegerField(default=0)
+    strength = models.IntegerField(default=10)
+    intellect = models.IntegerField(default=10)
+    agility = models.IntegerField(default=10)
 
     vocation = models.ForeignKey(
         "vocations.Vocation", on_delete=models.CASCADE, related_name="characters"

@@ -5,22 +5,37 @@ from .models import Character
 from accounts.serializer import AccountSerializer
 
 
-class CharacterSerializer(serializers.ModelSerializer):
-    patron = AccountSerializer(read_only=True)
+class CharacterCreationSerializer(serializers.ModelSerializer):
+    account = AccountSerializer(read_only=True)
+    vocation = VocationSerializer()
 
     class Meta:
         model = Character
         fields = "__all__"
-        read_only_fields = ["gold", "experience", "level"]
+        read_only_fields = [
+            "gold",
+            "experience",
+            "level",
+            "strength",
+            "intellect",
+            "agility",
+        ]
         extra_kwargs = {"password": {"write_only": True}}
 
 
-class CharacterManagementSerializer(serializers.ModelSerializer):
+class CharacterUpdateSerializer(serializers.ModelSerializer):
+    account = AccountSerializer(read_only=True)
+    vocation = VocationSerializer(read_only=True)
+
     class Meta:
         model = Character
         fields = "__all__"
-
-
-class CharacterLoginSerializer(serializers.Serializer):
-    username = serializers.CharField(write_only=True)
-    password = serializers.CharField(write_only=True)
+        read_only_fields = [
+            "gold",
+            "experience",
+            "level",
+            "strength",
+            "intellect",
+            "agility",
+        ]
+        extra_kwargs = {"password": {"write_only": True}}
