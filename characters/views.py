@@ -11,7 +11,7 @@ from .models import Character
 
 class ListCreateUserView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdmin, isAccountOwner]
+    permission_classes = [IsAdmin | isAccountOwner]
 
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
