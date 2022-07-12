@@ -2,11 +2,11 @@ from rest_framework import serializers
 
 from .models import Character
 
-from patrons.serializer import PatronSerializer
+from accounts.serializer import AccountSerializer
 
 
 class CharacterSerializer(serializers.ModelSerializer):
-    patron = PatronSerializer(read_only=True)
+    patron = AccountSerializer(read_only=True)
 
     class Meta:
         model = Character

@@ -9,5 +9,5 @@ class Missions(models.Model):
     gold = models.IntegerField()
 
     created_by = models.ForeignKey(
-        "patrons.Patron", on_delete=models.CASCADE, related_name="missions"
+        "accounts.Account", on_delete=models.CASCADE, related_name="missions"
     )
