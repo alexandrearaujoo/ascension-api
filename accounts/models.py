@@ -17,6 +17,7 @@ class Account(AbstractUser):
         choices=ClassificationChoices.choices,
         default=ClassificationChoices.ANGEL,
     )
+    is_game_master = models.BooleanField(default=False)
 
     REQUIRED_FIELDS = ["classification"]
 

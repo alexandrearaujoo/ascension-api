@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 
-from accounts.models import Patron
+from accounts.models import Account
 
 from .permissions import MissionsCustomPermissions
 
@@ -28,15 +28,15 @@ class UpdateMissionView(generics.RetrieveUpdateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [MissionsCustomPermissions]
 
-class ListAnMissionOfAnPatronView(generics.ListAPIView):
+
+class ListAnMissionOfAnAccountView(generics.ListAPIView):
     serializer_class = MissionSerializer
-    lookup_field = 'created_by_id'
+    lookup_field = "created_by_id"
 
     authentication_classes = [TokenAuthentication]
     permission_classes = [MissionsCustomPermissions]
 
     def get_queryset(self):
-        patron = get_object_or_404(Patron, pk=self.kwargs['created_by_id'])
-        
-        return Missions.objects.filter(created_by_id=patron.id)
-        
+        account = get_object_or_404(Account, pk=self.kwargs["created_by_id"])
+
+        return Missions.objects.filter(created_by_id=account.id)

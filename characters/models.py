@@ -8,12 +8,10 @@ class Character(models.Model):
     experience = models.IntegerField(default=0)
     gold = models.IntegerField(default=0)
 
-    patron = models.ForeignKey(
-        "patrons.Patron",
+    account = models.ForeignKey(
+        "accounts.Account",
         on_delete=models.DO_NOTHING,
         related_name="characters",
     )
 
-    missions = models.ManyToManyField(
-        "missions.Missions", related_name="characters"
-    )
+    missions = models.ManyToManyField("missions.Missions", related_name="characters")

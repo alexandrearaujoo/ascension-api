@@ -9,12 +9,9 @@ from .models import Account
 from .serializer import AccountLoginSerializer, AccountSerializer
 
 
-class CreatePatronView(generics.CreateAPIView):
+class CreateAccountView(generics.CreateAPIView):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
-
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminOrReadOnly]
 
 
 class ListAccountView(generics.ListAPIView):
