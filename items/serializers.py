@@ -1,14 +1,11 @@
 from rest_framework import serializers
 
 from .models import Item
-from artisans.serializers import ArtisanSerializer
-
-from characters.serializer import CharacterSerializer
-
 
 class ItemSerializer(serializers.ModelSerializer):
     owner = serializers.SerializerMethodField()
     artisan = serializers.SerializerMethodField()
+    power = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
@@ -16,6 +13,7 @@ class ItemSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "type",
+            "power",
             "price",
             "level_required",
             "owner",
@@ -28,3 +26,16 @@ class ItemSerializer(serializers.ModelSerializer):
     
     def get_owner(self, obj):
         return obj.owner.name if obj.owner else "This item don't have an owner."
+    
+    def get_power(self, obj):
+        power_value = round((obj.level_required + 1) * 1.3)
+        characteristics = "Attack"
+
+        if obj.type == "SH" or obj.type == "AR" or obj.type == "LE":
+            characteristics = "Defense"
+            return f"{characteristics} power of {power_value}pts."
+            
+        
+        return f"{characteristics} power of {power_value}pts."
+        
+        
