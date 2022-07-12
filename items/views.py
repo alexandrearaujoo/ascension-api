@@ -17,18 +17,16 @@ class ListItemView(generics.ListAPIView):
 
         if route_parameter_gt:
             queryset = (
-                Item.objects
-                .filter(owner__isnull=True)
+                Item.objects.filter(owner__isnull=True)
                 .filter(price__gt=route_parameter_gt)
                 .all()
             )
 
             return queryset
-        
+
         if route_parameter_lt:
             queryset = (
-                Item.objects
-                .filter(owner__isnull=True)
+                Item.objects.filter(owner__isnull=True)
                 .filter(price__lt=route_parameter_lt)
                 .all()
             )

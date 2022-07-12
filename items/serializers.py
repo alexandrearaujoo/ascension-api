@@ -8,6 +8,7 @@ from characters.serializer import CharacterSerializer
 
 class ItemSerializer(serializers.ModelSerializer):
     owner = CharacterSerializer(read_only=True)
+    artisan = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
@@ -21,3 +22,6 @@ class ItemSerializer(serializers.ModelSerializer):
             "artisan",
         ]
         read_only_fields = ["id", "artisan"]
+
+    def get_artisan(self, obj):
+        return obj.artisan.name if obj.artisan else "Unidentified Artisan"
