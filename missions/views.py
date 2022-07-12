@@ -26,9 +26,15 @@ class UpdateMissionView(generics.RetrieveUpdateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [MissionsCustomPermissions]
 
-class RetriveAnMissionOfAnPatronView(generics.RetrieveAPIView):
-    queryset = Missions.objects.all()
+class ListAnMissionOfAnPatronView(generics.ListAPIView):
     serializer_class = MissionSerializer
+    lookup_field = 'created_by_id'
 
     authentication_classes = [TokenAuthentication]
     permission_classes = [MissionsCustomPermissions]
+
+    def get_queryset(self):
+        patron = get_object_or_404(Patron, pk=self.kwargs['created_by_id'])
+        
+        return Missions.objects.filter(created_by_id=patron.id)
+        
