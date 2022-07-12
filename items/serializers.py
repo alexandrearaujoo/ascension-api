@@ -7,7 +7,7 @@ from characters.serializer import CharacterSerializer
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    owner = CharacterSerializer(read_only=True)
+    owner = serializers.SerializerMethodField()
     artisan = serializers.SerializerMethodField()
 
     class Meta:
@@ -21,7 +21,10 @@ class ItemSerializer(serializers.ModelSerializer):
             "owner",
             "artisan",
         ]
-        read_only_fields = ["id", "artisan"]
+        read_only_fields = ["id", "owner" ,"artisan"]
 
     def get_artisan(self, obj):
-        return obj.artisan.name if obj.artisan else "Unidentified Artisan"
+        return obj.artisan.name if obj.artisan else "Unidentified Artisan."
+    
+    def get_owner(self, obj):
+        return obj.owner.name if obj.owner else "This item don't have an owner."
