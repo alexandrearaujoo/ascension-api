@@ -32,7 +32,6 @@ class LoginPatronView(APIView):
             password=serializer.validated_data["password"],
         )
 
-
         if patron:
             token, _ = Token.objects.get_or_create(user=patron)
 

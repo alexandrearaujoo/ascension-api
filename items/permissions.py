@@ -1,6 +1,7 @@
 from rest_framework import permissions
 
-class MissionsCustomPermissions(permissions.BasePermission):
+
+class ItemsCustomPermissions(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
             return True
