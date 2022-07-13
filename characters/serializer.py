@@ -9,6 +9,8 @@ from missions.serializers import MissionSerializer
 
 from accounts.serializer import AccountSerializer
 
+from vocations.serializers import VocationSerializer
+
 
 class CharacterCreationSerializer(serializers.ModelSerializer):
     account = AccountSerializer(read_only=True)
