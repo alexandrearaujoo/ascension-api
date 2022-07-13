@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.views import Response, status
 from rest_framework.authentication import TokenAuthentication
@@ -38,7 +39,7 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
         partial = kwargs.pop('partial', False)
 
         instance = self.get_object()
-        character = Character.objects.get(username=self.request.data['username'])
+        character = get_object_or_404(Character, username=self.request.data['username'])
 
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)

@@ -1,4 +1,5 @@
 from rest_framework import permissions
+from django.shortcuts import get_object_or_404
 from .models import Character
 from accounts.models import Account
 
@@ -23,7 +24,7 @@ class IsAdmin(permissions.BasePermission):
 
 class isRealAccountOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        character = Character.objects.get(username=request.data['username'])
+        character = get_object_or_404(Character, username=request.data['username'])
         account = Account.objects.get(username=request.user.username)
         try:
             account_find = account.characters.get(username=character.username)
