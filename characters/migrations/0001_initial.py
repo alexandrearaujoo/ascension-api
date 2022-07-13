@@ -10,28 +10,55 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('missions', '0001_initial'),
+        ("missions", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('vocations', '0001_initial'),
+        ("vocations", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Character',
+            name="Character",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('username', models.CharField(max_length=50, unique=True)),
-                ('password', models.CharField(max_length=255)),
-                ('level', models.IntegerField(default=0)),
-                ('experience', models.IntegerField(default=0)),
-                ('gold', models.IntegerField(default=0)),
-                ('health_points', models.IntegerField(default=100)),
-                ('strength', models.IntegerField(default=10)),
-                ('intellect', models.IntegerField(default=10)),
-                ('agility', models.IntegerField(default=10)),
-                ('account', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='characters', to=settings.AUTH_USER_MODEL)),
-                ('missions', models.ManyToManyField(related_name='characters', to='missions.missions')),
-                ('vocation', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='characters', to='vocations.vocation')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("username", models.CharField(max_length=50, unique=True)),
+                ("password", models.CharField(max_length=255)),
+                ("level", models.IntegerField(default=0)),
+                ("experience", models.IntegerField(default=0)),
+                ("gold", models.IntegerField(default=0)),
+                ("health_points", models.IntegerField(default=100)),
+                ("strength", models.IntegerField(default=10)),
+                ("intellect", models.IntegerField(default=10)),
+                ("agility", models.IntegerField(default=10)),
+                (
+                    "account",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="characters",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "missions",
+                    models.ManyToManyField(
+                        related_name="characters", to="missions.missions"
+                    ),
+                ),
+                (
+                    "vocation",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="characters",
+                        to="vocations.vocation",
+                    ),
+                ),
             ],
         ),
     ]

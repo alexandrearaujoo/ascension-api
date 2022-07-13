@@ -24,7 +24,7 @@ class ItemSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "owner", "artisan"]
         extra_kwargs = {
             "price": {"validators": [MinValueValidator(0)]},
-            "level_required": {"validators": [MinValueValidator(0)]}
+            "level_required": {"validators": [MinValueValidator(0)]},
         }
 
     def get_artisan(self, obj):

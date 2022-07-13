@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from .permissions import IsAdmin, isAccountOwner
-from .serializer import  CharacterCreationSerializer, CharacterUpdateSerializer
+from .serializer import CharacterCreationSerializer, CharacterUpdateSerializer
 from .models import Character
 
 
@@ -19,6 +19,3 @@ class RetrieveUpdateDeleteCharacterView(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Character.objects.all()
     serializer_class = CharacterUpdateSerializer
-
-
-

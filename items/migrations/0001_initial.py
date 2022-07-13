@@ -10,21 +10,58 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('artisans', '0001_initial'),
-        ('characters', '0001_initial'),
+        ("artisans", "0001_initial"),
+        ("characters", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Item',
+            name="Item",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=50)),
-                ('type', models.CharField(choices=[('SW', 'Sword'), ('BOW', 'Bow'), ('SH', 'Shield'), ('AXE', 'Axe'), ('AR', 'Armor'), ('LE', 'Legs')], max_length=50)),
-                ('price', models.IntegerField()),
-                ('level_required', models.IntegerField(default=0)),
-                ('artisan', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='items', to='artisans.artisan')),
-                ('owner', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='items', to='characters.character')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                (
+                    "type",
+                    models.CharField(
+                        choices=[
+                            ("SW", "Sword"),
+                            ("BOW", "Bow"),
+                            ("SH", "Shield"),
+                            ("AXE", "Axe"),
+                            ("AR", "Armor"),
+                            ("LE", "Legs"),
+                        ],
+                        max_length=50,
+                    ),
+                ),
+                ("price", models.IntegerField()),
+                ("level_required", models.IntegerField(default=0)),
+                (
+                    "artisan",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="items",
+                        to="artisans.artisan",
+                    ),
+                ),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="items",
+                        to="characters.character",
+                    ),
+                ),
             ],
         ),
     ]

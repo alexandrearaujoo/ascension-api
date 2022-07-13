@@ -15,15 +15,30 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Missions',
+            name="Missions",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.TextField()),
-                ('name', models.CharField(max_length=50)),
-                ('experience', models.IntegerField()),
-                ('level_required', models.IntegerField()),
-                ('gold', models.IntegerField()),
-                ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='missions', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("description", models.TextField()),
+                ("name", models.CharField(max_length=50)),
+                ("experience", models.IntegerField()),
+                ("level_required", models.IntegerField()),
+                ("gold", models.IntegerField()),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="missions",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

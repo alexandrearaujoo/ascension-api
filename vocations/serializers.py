@@ -6,4 +6,3 @@ class VocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vocation
         fields = "__all__"
-

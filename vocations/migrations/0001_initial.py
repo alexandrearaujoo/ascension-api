@@ -7,18 +7,34 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Vocation',
+            name="Vocation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('intellect_modifier', models.DecimalField(decimal_places=2, max_digits=3)),
-                ('strength_modifier', models.DecimalField(decimal_places=2, max_digits=3)),
-                ('agility_modifier', models.DecimalField(decimal_places=2, max_digits=3)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                (
+                    "intellect_modifier",
+                    models.DecimalField(decimal_places=2, max_digits=3),
+                ),
+                (
+                    "strength_modifier",
+                    models.DecimalField(decimal_places=2, max_digits=3),
+                ),
+                (
+                    "agility_modifier",
+                    models.DecimalField(decimal_places=2, max_digits=3),
+                ),
             ],
         ),
     ]
