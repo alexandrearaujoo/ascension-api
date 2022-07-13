@@ -1,3 +1,4 @@
+from functools import partial
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.views import Response, status
@@ -54,7 +55,13 @@ class PatchMissionCharacterView(APIView):
         character.missions.add(mission)
         character.save()
 
-        return Response("sucesso")
+        character_serializer = CharacterCreationSerializer(
+            character, request.data, partial=True
+        )
+
+        character_serializer.is_valid()
+
+        return Response(character_serializer.data)
 
 
 class BuyItemForCharacterView(generics.UpdateAPIView):
