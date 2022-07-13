@@ -8,4 +8,8 @@ urlpatterns = [
         "accounts/characters/<int:character_id>/",
         views.RetrieveUpdateDeleteCharacterView.as_view(),
     ),
+    path(
+        "accounts/characters/<int:character_id>/missions/<int:mission_id>/",
+        views.PatchMissionCharacterView.as_view(),
+    ),
 ]

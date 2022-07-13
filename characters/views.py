@@ -1,8 +1,12 @@
 from rest_framework import generics
+from rest_framework.views import APIView, Response, status
+from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
+
 from .permissions import IsAdmin, isAccountOwner
 from .serializer import CharacterCreationSerializer, CharacterUpdateSerializer
 from .models import Character
+from missions.models import Missions
 
 
 class ListCreateUserView(generics.ListCreateAPIView):
@@ -22,3 +26,17 @@ class RetrieveUpdateDeleteCharacterView(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Character.objects.all()
     serializer_class = CharacterUpdateSerializer
+
+
+class PatchMissionCharacterView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def patch(self, request, character_id, mission_id):
+        import ipdb
+
+        ipdb.set_trace()
+
+        try:
+            mission = get_object_or_404(Missions, pk=mission_id)
+        except Missions.DoesNotExist:
+            return Response({"message": "Mission not found"})
