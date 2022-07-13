@@ -12,6 +12,9 @@ class ListCreateUserView(generics.ListCreateAPIView):
     queryset = Character.objects.all()
     serializer_class = CharacterCreationSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(account=self.request.user)
+
 
 class RetrieveUpdateDeleteCharacterView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]

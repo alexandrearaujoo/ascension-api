@@ -13,7 +13,6 @@ from accounts.serializer import AccountSerializer
 class CharacterCreationSerializer(serializers.ModelSerializer):
     account = AccountSerializer(read_only=True)
     missions = MissionSerializer(read_only=True, many=True)
-    vocation = VocationSerializer(read_only=True)
 
     class Meta:
         model = Character
