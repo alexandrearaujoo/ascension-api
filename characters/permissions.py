@@ -1,5 +1,8 @@
 from characters.models import Character
 from rest_framework import permissions
+from django.shortcuts import get_object_or_404
+from .models import Character
+from accounts.models import Account
 
 
 class IsAccountOwnerOrReadOnly(permissions.BasePermission):
@@ -15,20 +18,18 @@ class isAccountOwner(permissions.BasePermission):
         return request.user.is_authenticated
 
 
-class isCharacterOwner(permissions.BasePermission):
-    def has_permission(self, request, view):
-        import ipdb
-
-        ipdb.set_trace()
-
-        character = Character.objects.get(username=request.data["username"])
-        characterInAccount = Character.objects.get(
-            username=request.user.characters["username"]
-        )
-
-        return character == request.user.characters
-
-
 class IsAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_superuser
+
+
+class isRealAccountOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        character = get_object_or_404(Character, username=request.data["username"])
+        account = Account.objects.get(username=request.user.username)
+        try:
+            account_find = account.characters.get(username=character.username)
+        except:
+            return False
+
+        return account_find.username == request.data["username"]
