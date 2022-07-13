@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "items",
     "missions",
     "accounts",
+    "vocations",
     "drf_spectacular",
 ]
 

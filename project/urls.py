@@ -25,4 +25,5 @@ urlpatterns = [
     path("api/", include("missions.urls")),
     path("api/", include("artisans.urls")),
     path("api/", include("items.urls")),
+    path("api/", include('characters.urls'))
 ]

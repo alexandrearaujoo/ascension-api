@@ -10,8 +10,9 @@ class IsAccountOwnerOrReadOnly(permissions.BasePermission):
 
 
 class isAccountOwner(permissions.BasePermission):
-    def has_permission(self, request, view, obj):
-        return obj.username == request.user.username
+    def has_permission(self, request, view):
+        return request.user.is_authenticated
+        
 
 
 class IsAdmin(permissions.BasePermission):

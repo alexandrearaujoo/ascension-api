@@ -1,13 +1,19 @@
+from asyncore import read
 from rest_framework import serializers
 
+from vocations.serializers import VocationSerializer
+
 from .models import Character
+
+from missions.serializers import MissionSerializer
 
 from accounts.serializer import AccountSerializer
 
 
 class CharacterCreationSerializer(serializers.ModelSerializer):
     account = AccountSerializer(read_only=True)
-    vocation = VocationSerializer()
+    missions = MissionSerializer(read_only=True, many=True)
+    vocation = VocationSerializer(read_only=True)
 
     class Meta:
         model = Character
@@ -16,6 +22,7 @@ class CharacterCreationSerializer(serializers.ModelSerializer):
             "gold",
             "experience",
             "level",
+            'health_points',
             "strength",
             "intellect",
             "agility",
@@ -34,6 +41,7 @@ class CharacterUpdateSerializer(serializers.ModelSerializer):
             "gold",
             "experience",
             "level",
+            'health_points',
             "strength",
             "intellect",
             "agility",
