@@ -9,6 +9,7 @@ from missions.serializers import MissionSerializer
 
 from accounts.serializer import AccountSerializer
 
+from vocations.serializers import VocationSerializer
 from items.serializers import ItemSerializer
 
 
@@ -28,7 +29,6 @@ class CharacterCreationSerializer(serializers.ModelSerializer):
             "strength",
             "intellect",
             "agility",
-            
         ]
         extra_kwargs = {"password": {"write_only": True}}
 
