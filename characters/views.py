@@ -55,6 +55,13 @@ class PatchMissionCharacterView(APIView):
             )
 
         character.missions.add(mission)
+        character.experience += mission.experience
+        character.gold += mission.gold
+
+        if character.experience >= 100:
+            character.level += 1
+            character.experience -= 100
+
         character.save()
 
         character_serializer = CharacterCreationSerializer(
