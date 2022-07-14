@@ -3,8 +3,6 @@ from rest_framework import serializers
 from characters.helpers import vocation_status_modifier
 from vocations.models import Vocation
 
-from vocations.serializers import VocationSerializer
-
 from .models import Character
 
 from missions.serializers import MissionSerializer
