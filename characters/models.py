@@ -14,11 +14,17 @@ class Character(models.Model):
     agility = models.IntegerField(default=10)
 
     vocation = models.ForeignKey(
-        "vocations.Vocation", on_delete=models.CASCADE, related_name="characters"
+        "vocations.Vocation",
+        on_delete=models.CASCADE,
+        related_name="characters",
     )
 
     account = models.ForeignKey(
-        "accounts.Account", on_delete=models.DO_NOTHING, related_name="characters"
+        "accounts.Account",
+        on_delete=models.DO_NOTHING,
+        related_name="characters",
     )
 
-    missions = models.ManyToManyField("missions.Missions", related_name="characters")
+    missions = models.ManyToManyField(
+        "missions.Missions", related_name="characters"
+    )

@@ -26,4 +26,3 @@ class MissionSerializer(serializers.ModelSerializer):
             "gold": {"validators": [MinValueValidator(0)]},
             "xp": {"validators": [MinValueValidator(0)]},
         }
-                                                

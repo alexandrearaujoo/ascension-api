@@ -12,7 +12,13 @@ class AccountInMissionsSerializer(serializers.ModelSerializer):
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ["id", "username", "password", "classification", "is_game_master"]
+        fields = [
+            "id",
+            "username",
+            "password",
+            "classification",
+            "is_game_master",
+        ]
         extra_kwargs = {
             "password": {"write_only": True},
             "is_game_master": {"write_only": True, "default": False},
