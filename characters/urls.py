@@ -12,5 +12,8 @@ urlpatterns = [
         "accounts/characters/missions/<int:mission_id>/",
         views.PatchMissionCharacterView.as_view(),
     ),
-    path("accounts/characters/items/<pk>/", views.BuyItemForCharacterView.as_view()),
+    path(
+        "accounts/characters/items/<pk>/",
+        views.BuyItemForCharacterView.as_view(),
+    ),
 ]
