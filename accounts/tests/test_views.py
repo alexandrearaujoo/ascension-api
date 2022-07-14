@@ -9,7 +9,8 @@ class TestAccountView(APITestCase):
 
     def test_non_admin_account_creation_success(self):
         res = self.client.post(
-            "/api/accounts/register/", data={"username": "nehama", "password": "1234"}
+            "/api/accounts/register/",
+            data={"username": "nehama", "password": "1234"},
         )
         self.assertEqual(res.status_code, 201)
         self.assertIn("id", res.json())
@@ -19,7 +20,11 @@ class TestAccountView(APITestCase):
     def test_admin_account_creation_success(self):
         res = self.client.post(
             "/api/accounts/register/",
-            data={"username": "nehama", "password": "1234", "is_game_master": "true"},
+            data={
+                "username": "nehama",
+                "password": "1234",
+                "is_game_master": "true",
+            },
         )
         self.assertEqual(res.status_code, 201)
         self.assertIn("id", res.json())
@@ -57,7 +62,8 @@ class TestAccountView(APITestCase):
     def test_login_non_admin_user_returns_token(self):
         Account.objects.create_user(username="nene", password="1234")
         res = self.client.post(
-            "/api/accounts/login/", data={"username": "nene", "password": "1234"}
+            "/api/accounts/login/",
+            data={"username": "nene", "password": "1234"},
         )
         self.assertEqual(res.status_code, 200)
         self.assertIn("token", res.json())
@@ -65,7 +71,8 @@ class TestAccountView(APITestCase):
     def test_login_admin_user_returns_token(self):
         Account.objects.create_superuser(username="nene", password="1234")
         res = self.client.post(
-            "/api/accounts/login/", data={"username": "nene", "password": "1234"}
+            "/api/accounts/login/",
+            data={"username": "nene", "password": "1234"},
         )
         self.assertEqual(res.status_code, 200)
         self.assertIn("token", res.json())
@@ -74,7 +81,8 @@ class TestAccountView(APITestCase):
         Account.objects.create_user(username="nene", password="1234")
 
         res = self.client.post(
-            "/api/accounts/login/", data={"username": "nene", "password": "123"}
+            "/api/accounts/login/",
+            data={"username": "nene", "password": "123"},
         )
 
         self.assertEqual(res.status_code, 401)

@@ -3,8 +3,7 @@ from django.db import models
 
 class Character(models.Model):
 
-    username = models.CharField(max_length=50, unique=True, null=False)
-    password = models.CharField(max_length=255)
+    nickname = models.CharField(max_length=50, unique=True, null=False)
     level = models.IntegerField(default=0)
     experience = models.IntegerField(default=0)
     gold = models.IntegerField(default=0)
@@ -15,11 +14,17 @@ class Character(models.Model):
     agility = models.IntegerField(default=10)
 
     vocation = models.ForeignKey(
-        "vocations.Vocation", on_delete=models.CASCADE, related_name="characters"
+        "vocations.Vocation",
+        on_delete=models.CASCADE,
+        related_name="characters",
     )
 
     account = models.ForeignKey(
-        "accounts.Account", on_delete=models.DO_NOTHING, related_name="characters"
+        "accounts.Account",
+        on_delete=models.DO_NOTHING,
+        related_name="characters",
     )
 
-    missions = models.ManyToManyField("missions.Missions", related_name="characters")
+    missions = models.ManyToManyField(
+        "missions.Missions", related_name="characters"
+    )

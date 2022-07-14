@@ -10,3 +10,4 @@ urlpatterns = [
         views.ListAnMissionOfAnAccountView.as_view(),
     ),
 ]
+    
