@@ -4,7 +4,7 @@ from vocations.models import Vocation
 from characters.models import Character
 
 
-class AccountModelTest(TestCase):
+class CharacterModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
 
