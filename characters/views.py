@@ -44,7 +44,7 @@ class PatchMissionCharacterView(APIView):
 
         try:
             character = get_object_or_404(
-                Character, username=self.request.data["username"]
+                Character, nickname=self.request.data["nickname"]
             )
         except Character.DoesNotExist:
             return Response({"message": "Character not found"})
@@ -77,9 +77,8 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
         partial = kwargs.pop("partial", False)
 
         instance = self.get_object()
-        character = get_object_or_404(
-            Character, username=self.request.data["username"]
-        )
+        character = get_object_or_404(Character, nickname=self.request.data["nickname"])
+
 
         serializer = self.get_serializer(
             instance, data=request.data, partial=partial
@@ -105,9 +104,9 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
 
     def perform_update(self, serializer):
         item = self.get_object()
-        character = Character.objects.get(
-            username=self.request.data["username"]
-        )
+
+        character = Character.objects.get(nickname=self.request.data["nickname"])
+
         character.gold -= item.price
         character.save()
         serializer.save(owner=character)

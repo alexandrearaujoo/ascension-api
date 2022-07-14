@@ -3,8 +3,7 @@ from django.db import models
 
 class Character(models.Model):
 
-    username = models.CharField(max_length=50, unique=True, null=False)
-    password = models.CharField(max_length=255)
+    nickname = models.CharField(max_length=50, unique=True, null=False)
     level = models.IntegerField(default=0)
     experience = models.IntegerField(default=0)
     gold = models.IntegerField(default=0)
