@@ -1,4 +1,3 @@
-from asyncore import read
 from rest_framework import serializers
 
 from vocations.serializers import VocationSerializer
@@ -30,7 +29,6 @@ class CharacterCreationSerializer(serializers.ModelSerializer):
             "intellect",
             "agility",
         ]
-        extra_kwargs = {"password": {"write_only": True}}
 
 
 class CharacterUpdateSerializer(serializers.ModelSerializer):
@@ -50,4 +48,3 @@ class CharacterUpdateSerializer(serializers.ModelSerializer):
             "intellect",
             "agility",
         ]
-        extra_kwargs = {"password": {"write_only": True}}

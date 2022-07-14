@@ -8,6 +8,7 @@ from .permissions import IsAdmin, isAccountOwner, isRealAccountOwner
 from .serializer import CharacterCreationSerializer, CharacterUpdateSerializer
 from .models import Character
 from missions.models import Missions
+import random
 
 from items.models import Item
 from items.serializers import ItemSerializer
@@ -51,6 +52,11 @@ class PatchMissionCharacterView(APIView):
 
         if character.level < mission.level_required:
             return Response({"message": "You are too low level for this mission"})
+
+        success_chance = round(random.random())
+
+        if success_chance >= 0.2:
+            mission.completed = True
 
         character.missions.add(mission)
         character.save()
