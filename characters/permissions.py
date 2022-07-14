@@ -32,4 +32,4 @@ class isRealAccountOwner(permissions.BasePermission):
         except:
             return False
 
-        return account_find.username == request.data["username"]
+        return account_find.nickname == request.data["nickname"]
