@@ -9,7 +9,7 @@ from items.models import Item
 from items.serializers import ItemSerializer
 
 
-class ArtisanList(generics.ListCreateAPIView):
+class ArtisanListCreate(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [ArtisansCustomPermissions]
 

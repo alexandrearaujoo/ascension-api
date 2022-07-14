@@ -16,4 +16,3 @@ class ArtisanModelTest(TestCase):
 
     def test_artisan_has_information_fields(self):
         self.assertEqual(self.artisan.name, self.name)
-

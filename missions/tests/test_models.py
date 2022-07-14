@@ -12,7 +12,9 @@ class missionModelTest(TestCase):
         cls.level_required = 6
         cls.gold = 10
 
-        cls.account = Account.objects.create(username="Arkkie", password="abcd")
+        cls.account = Account.objects.create(
+            username="Arkkie", password="abcd"
+        )
 
         cls.mission = Missions.objects.create(
             description=cls.description,

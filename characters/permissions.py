@@ -25,7 +25,9 @@ class IsAdmin(permissions.BasePermission):
 
 class isRealAccountOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        character = get_object_or_404(Character, username=request.data["username"])
+        character = get_object_or_404(
+            Character, username=request.data["username"]
+        )
         account = Account.objects.get(username=request.user.username)
         try:
             account_find = account.characters.get(username=character.username)
