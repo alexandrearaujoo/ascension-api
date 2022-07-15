@@ -9,9 +9,7 @@ class itemModelTest(TestCase):
         cls.type = "Sword"
         cls.price = 22
 
-        cls.item = Item.objects.create(
-            name=cls.name, type=cls.type, price=cls.price
-        )
+        cls.item = Item.objects.create(name=cls.name, type=cls.type, price=cls.price)
 
     def test_name_max_length(self):
         item = Item.objects.get(id=self.item.id)

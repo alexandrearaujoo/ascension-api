@@ -50,9 +50,7 @@ class PatchMissionCharacterView(APIView):
             return Response({"message": "Character not found"})
 
         if character.level < mission.level_required:
-            return Response(
-                {"message": "You are too low level for this mission"}
-            )
+            return Response({"message": "You are too low level for this mission"})
 
         character.missions.add(mission)
         character.save()
@@ -79,10 +77,7 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
         instance = self.get_object()
         character = get_object_or_404(Character, nickname=self.request.data["nickname"])
 
-
-        serializer = self.get_serializer(
-            instance, data=request.data, partial=partial
-        )
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
 
         if (

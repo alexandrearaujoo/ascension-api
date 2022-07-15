@@ -6,17 +6,17 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('characters', '0001_initial'),
+        ("characters", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='character',
-            old_name='username',
-            new_name='nickname',
+            model_name="character",
+            old_name="username",
+            new_name="nickname",
         ),
         migrations.RemoveField(
-            model_name='character',
-            name='password',
+            model_name="character",
+            name="password",
         ),
     ]
