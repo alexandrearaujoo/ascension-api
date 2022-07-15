@@ -1,0 +1,1315 @@
+openapi: 3.0.3
+info:
+  title: Ascension API
+  version: 1.0.0
+  description: A role-playing game where each character receives missions, and as
+    they complete them, they gain experience and level up.
+paths:
+  /api/accounts/:
+    get:
+      operationId: accounts_list
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+          description: ''
+  /api/accounts/characters/:
+    get:
+      operationId: accounts_characters_list
+      tags:
+      - accounts
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CharacterCreation'
+          description: ''
+    post:
+      operationId: accounts_characters_create
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CharacterCreation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CharacterCreation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CharacterCreation'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterCreation'
+          description: ''
+  /api/accounts/characters/{id}/:
+    get:
+      operationId: accounts_characters_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this character.
+        required: true
+      tags:
+      - accounts
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterUpdate'
+          description: ''
+    put:
+      operationId: accounts_characters_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this character.
+        required: true
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CharacterUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CharacterUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CharacterUpdate'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterUpdate'
+          description: ''
+    patch:
+      operationId: accounts_characters_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this character.
+        required: true
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCharacterUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCharacterUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCharacterUpdate'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterUpdate'
+          description: ''
+    delete:
+      operationId: accounts_characters_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this character.
+        required: true
+      tags:
+      - accounts
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/accounts/characters/items/{id}/:
+    put:
+      operationId: accounts_characters_items_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item.
+        required: true
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Item'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Item'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+    patch:
+      operationId: accounts_characters_items_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item.
+        required: true
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedItem'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+  /api/accounts/characters/missions/{mission_id}/:
+    patch:
+      operationId: accounts_characters_missions_partial_update
+      parameters:
+      - in: path
+        name: mission_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - accounts
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/accounts/login/:
+    post:
+      operationId: accounts_login_create
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/accounts/register/:
+    post:
+      operationId: accounts_register_create
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Account'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+  /api/artisans/:
+    get:
+      operationId: artisans_list
+      tags:
+      - artisans
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Artisan'
+          description: ''
+    post:
+      operationId: artisans_create
+      tags:
+      - artisans
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Artisan'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Artisan'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Artisan'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artisan'
+          description: ''
+  /api/artisans/{id}/:
+    get:
+      operationId: artisans_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this artisan.
+        required: true
+      tags:
+      - artisans
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artisan'
+          description: ''
+    put:
+      operationId: artisans_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this artisan.
+        required: true
+      tags:
+      - artisans
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Artisan'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Artisan'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Artisan'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artisan'
+          description: ''
+    patch:
+      operationId: artisans_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this artisan.
+        required: true
+      tags:
+      - artisans
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedArtisan'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedArtisan'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedArtisan'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artisan'
+          description: ''
+    delete:
+      operationId: artisans_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this artisan.
+        required: true
+      tags:
+      - artisans
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/artisans/{id}/items/:
+    post:
+      operationId: artisans_items_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item.
+        required: true
+      tags:
+      - artisans
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Item'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Item'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+  /api/items/:
+    get:
+      operationId: items_list
+      tags:
+      - items
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+          description: ''
+  /api/items/{id}/:
+    get:
+      operationId: items_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item.
+        required: true
+      tags:
+      - items
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+    put:
+      operationId: items_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item.
+        required: true
+      tags:
+      - items
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Item'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Item'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+    patch:
+      operationId: items_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item.
+        required: true
+      tags:
+      - items
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedItem'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+    delete:
+      operationId: items_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item.
+        required: true
+      tags:
+      - items
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/missions/:
+    get:
+      operationId: missions_list
+      tags:
+      - missions
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mission'
+          description: ''
+    post:
+      operationId: missions_create
+      tags:
+      - missions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mission'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mission'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Mission'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mission'
+          description: ''
+  /api/missions/{id}/:
+    get:
+      operationId: missions_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this missions.
+        required: true
+      tags:
+      - missions
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mission'
+          description: ''
+    put:
+      operationId: missions_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this missions.
+        required: true
+      tags:
+      - missions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mission'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mission'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Mission'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mission'
+          description: ''
+    patch:
+      operationId: missions_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this missions.
+        required: true
+      tags:
+      - missions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMission'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMission'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMission'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mission'
+          description: ''
+  /api/missions/patron/{created_by_id}/:
+    get:
+      operationId: missions_patron_list
+      parameters:
+      - in: path
+        name: created_by_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - missions
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mission'
+          description: ''
+  /api/vocations/:
+    get:
+      operationId: vocations_list
+      tags:
+      - vocations
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vocation'
+          description: ''
+    post:
+      operationId: vocations_create
+      tags:
+      - vocations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vocation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vocation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vocation'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vocation'
+          description: ''
+  /api/vocations/{id}/:
+    get:
+      operationId: vocations_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vocation.
+        required: true
+      tags:
+      - vocations
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vocation'
+          description: ''
+    put:
+      operationId: vocations_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vocation.
+        required: true
+      tags:
+      - vocations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vocation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vocation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vocation'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vocation'
+          description: ''
+    patch:
+      operationId: vocations_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vocation.
+        required: true
+      tags:
+      - vocations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVocation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVocation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVocation'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vocation'
+          description: ''
+    delete:
+      operationId: vocations_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vocation.
+        required: true
+      tags:
+      - vocations
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          maxLength: 50
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        classification:
+          $ref: '#/components/schemas/ClassificationEnum'
+        is_game_master:
+          type: boolean
+          writeOnly: true
+          default: false
+      required:
+      - id
+      - password
+      - username
+    AccountInMissions:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 50
+      required:
+      - username
+    Artisan:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          readOnly: true
+      required:
+      - id
+      - items
+      - name
+    CharacterCreation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        account:
+          allOf:
+          - $ref: '#/components/schemas/Account'
+          readOnly: true
+        missions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mission'
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          readOnly: true
+        nickname:
+          type: string
+          maxLength: 50
+        level:
+          type: integer
+          readOnly: true
+        experience:
+          type: integer
+          readOnly: true
+        gold:
+          type: integer
+          readOnly: true
+        health_points:
+          type: integer
+          readOnly: true
+        strength:
+          type: integer
+          readOnly: true
+        intellect:
+          type: integer
+          readOnly: true
+        agility:
+          type: integer
+          readOnly: true
+        vocation:
+          type: integer
+      required:
+      - account
+      - agility
+      - experience
+      - gold
+      - health_points
+      - id
+      - intellect
+      - items
+      - level
+      - missions
+      - nickname
+      - strength
+      - vocation
+    CharacterUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        account:
+          allOf:
+          - $ref: '#/components/schemas/Account'
+          readOnly: true
+        vocation:
+          allOf:
+          - $ref: '#/components/schemas/Vocation'
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          readOnly: true
+        nickname:
+          type: string
+          maxLength: 50
+        level:
+          type: integer
+          readOnly: true
+        experience:
+          type: integer
+          readOnly: true
+        gold:
+          type: integer
+          readOnly: true
+        health_points:
+          type: integer
+          readOnly: true
+        strength:
+          type: integer
+          readOnly: true
+        intellect:
+          type: integer
+          readOnly: true
+        agility:
+          type: integer
+          readOnly: true
+        missions:
+          type: array
+          items:
+            type: integer
+      required:
+      - account
+      - agility
+      - experience
+      - gold
+      - health_points
+      - id
+      - intellect
+      - items
+      - level
+      - missions
+      - nickname
+      - strength
+      - vocation
+    ClassificationEnum:
+      enum:
+      - angel
+      - demon
+      type: string
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        power:
+          type: string
+          readOnly: true
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        level_required:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        owner:
+          type: string
+          readOnly: true
+        artisan:
+          type: string
+          readOnly: true
+      required:
+      - artisan
+      - id
+      - name
+      - owner
+      - power
+      - price
+      - type
+    Mission:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        description:
+          type: string
+        name:
+          type: string
+          maxLength: 50
+        experience:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        level_required:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        gold:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AccountInMissions'
+          readOnly: true
+      required:
+      - created_by
+      - description
+      - experience
+      - gold
+      - id
+      - level_required
+      - name
+    PatchedArtisan:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          readOnly: true
+    PatchedCharacterUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        account:
+          allOf:
+          - $ref: '#/components/schemas/Account'
+          readOnly: true
+        vocation:
+          allOf:
+          - $ref: '#/components/schemas/Vocation'
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          readOnly: true
+        nickname:
+          type: string
+          maxLength: 50
+        level:
+          type: integer
+          readOnly: true
+        experience:
+          type: integer
+          readOnly: true
+        gold:
+          type: integer
+          readOnly: true
+        health_points:
+          type: integer
+          readOnly: true
+        strength:
+          type: integer
+          readOnly: true
+        intellect:
+          type: integer
+          readOnly: true
+        agility:
+          type: integer
+          readOnly: true
+        missions:
+          type: array
+          items:
+            type: integer
+    PatchedItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        power:
+          type: string
+          readOnly: true
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        level_required:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        owner:
+          type: string
+          readOnly: true
+        artisan:
+          type: string
+          readOnly: true
+    PatchedMission:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        description:
+          type: string
+        name:
+          type: string
+          maxLength: 50
+        experience:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        level_required:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        gold:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        created_by:
+          allOf:
+          - $ref: '#/components/schemas/AccountInMissions'
+          readOnly: true
+    PatchedVocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        intellect_modifier:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        strength_modifier:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        agility_modifier:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+    TypeEnum:
+      enum:
+      - SW
+      - BOW
+      - SH
+      - AXE
+      - AR
+      - LE
+      type: string
+    Vocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        intellect_modifier:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        strength_modifier:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        agility_modifier:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - agility_modifier
+      - id
+      - intellect_modifier
+      - name
+      - strength_modifier
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

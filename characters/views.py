@@ -1,3 +1,130 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from rest_framework import generics
+from rest_framework.views import Response, status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.views import APIView, Response, status
+from .permissions import IsAdmin, isAccountOwner, isRealAccountOwner
+from .serializer import CharacterCreationSerializer, CharacterUpdateSerializer
+from .models import Character
+from missions.models import Missions
+import random
 
-# Create your views here.
+from items.models import Item
+from items.serializers import ItemSerializer
+
+
+class ListCreateUserView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdmin | isAccountOwner]
+
+    queryset = Character.objects.all()
+    serializer_class = CharacterCreationSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(account=self.request.user)
+
+
+class RetrieveUpdateDeleteCharacterView(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [isAccountOwner]
+
+    queryset = Character.objects.all()
+    serializer_class = CharacterUpdateSerializer
+
+
+class PatchMissionCharacterView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [isRealAccountOwner]
+
+    def patch(self, request, mission_id):
+        try:
+            mission = get_object_or_404(Missions, pk=mission_id)
+        except Missions.DoesNotExist:
+            return Response({"message": "Mission not found"})
+
+        try:
+            character = get_object_or_404(
+                Character, nickname=self.request.data["nickname"]
+            )
+        except Character.DoesNotExist:
+            return Response({"message": "Character not found"})
+
+        if character.level < mission.level_required:
+            return Response({"message": "You are too low level for this mission"})
+
+        success_chance = round(random.random())
+
+        if success_chance >= 0.2:
+
+            character.experience += mission.experience
+            character.gold += mission.gold
+
+            if character.experience >= 100:
+                character.level += 1
+                character.experience -= 100
+
+            character.missions.add(mission)
+
+            character.save()
+
+            character_serializer = CharacterCreationSerializer(
+                character, request.data, partial=True
+            )
+
+            character_serializer.is_valid()
+
+            response = {
+                "message": "Mission succeded",
+                "current level": character_serializer.data["level"],
+                "current gold": character_serializer.data["gold"],
+                "current experience": character_serializer.data["experience"],
+            }
+
+            return Response(response)
+
+        response = {"message": "Mission Failed"}
+
+        return Response(response)
+
+
+class BuyItemForCharacterView(generics.UpdateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [isRealAccountOwner]
+
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop("partial", False)
+
+        instance = self.get_object()
+        character = get_object_or_404(Character, nickname=self.request.data["nickname"])
+
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        if (
+            character.gold >= instance.price
+            and character.level >= instance.level_required
+            and instance.owner is None
+        ):
+            self.perform_update(serializer)
+        else:
+            return Response(
+                {"message": "You can't buy this item."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if getattr(instance, "_prefetched_objects_cache", None):
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        item = self.get_object()
+
+        character = Character.objects.get(nickname=self.request.data["nickname"])
+
+        character.gold -= item.price
+        character.save()
+        serializer.save(owner=character)
