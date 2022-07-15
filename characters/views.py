@@ -7,7 +7,7 @@ from .permissions import IsAdmin, isAccountOwner, isRealAccountOwner
 from .serializer import CharacterCreationSerializer, CharacterUpdateSerializer
 from .models import Character
 from missions.models import Missions
-
+import random
 
 from items.models import Item
 from items.serializers import ItemSerializer
@@ -52,16 +52,39 @@ class PatchMissionCharacterView(APIView):
         if character.level < mission.level_required:
             return Response({"message": "You are too low level for this mission"})
 
-        character.missions.add(mission)
-        character.save()
+        success_chance = round(random.random())
 
-        character_serializer = CharacterCreationSerializer(
-            character, request.data, partial=True
-        )
+        if success_chance >= 0.2:
 
-        character_serializer.is_valid()
+            character.experience += mission.experience
+            character.gold += mission.gold
 
-        return Response(character_serializer.data)
+            if character.experience >= 100:
+                character.level += 1
+                character.experience -= 100
+
+            character.missions.add(mission)
+
+            character.save()
+
+            character_serializer = CharacterCreationSerializer(
+                character, request.data, partial=True
+            )
+
+            character_serializer.is_valid()
+
+            response = {
+                "message": "Mission succeded",
+                "current level": character_serializer.data["level"],
+                "current gold": character_serializer.data["gold"],
+                "current experience": character_serializer.data["experience"],
+            }
+
+            return Response(response)
+
+        response = {"message": "Mission Failed"}
+
+        return Response(response)
 
 
 class BuyItemForCharacterView(generics.UpdateAPIView):

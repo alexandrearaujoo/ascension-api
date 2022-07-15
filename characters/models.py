@@ -1,5 +1,7 @@
 from django.db import models
 
+from missions.models import Missions
+
 
 class Character(models.Model):
 
