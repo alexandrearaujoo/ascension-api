@@ -1,8 +1,5 @@
 from django.db import models
 
-from missions.models import Missions
-
-
 class Character(models.Model):
 
     nickname = models.CharField(max_length=50, unique=True, null=False)
