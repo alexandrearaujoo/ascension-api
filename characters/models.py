@@ -1,5 +1,7 @@
 from django.db import models
 
+from missions.models import Missions
+
 
 class Character(models.Model):
 
@@ -25,6 +27,4 @@ class Character(models.Model):
         related_name="characters",
     )
 
-    missions = models.ManyToManyField(
-        "missions.Missions", related_name="characters"
-    )
+    missions = models.ManyToManyField("missions.Missions", related_name="characters")

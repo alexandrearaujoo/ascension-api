@@ -9,9 +9,7 @@ class AccountModelTest(TestCase):
         cls.classification = "angel"
         cls.is_game_master = False
 
-        cls.account = Account.objects.create(
-            username=cls.username, password="abcd"
-        )
+        cls.account = Account.objects.create(username=cls.username, password="abcd")
 
     def test_username_max_length(self):
         account = Account.objects.get(id=1)

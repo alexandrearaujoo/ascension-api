@@ -33,7 +33,6 @@ class ItemSerializer(serializers.ModelSerializer):
     def get_owner(self, obj):
         return obj.owner.nickname if obj.owner else "This item doesn't have an owner."
 
-
     def get_power(self, obj):
         power_value = round((obj.level_required + 1) * 1.3)
         characteristics = "Attack"

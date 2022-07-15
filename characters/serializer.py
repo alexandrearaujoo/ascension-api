@@ -30,12 +30,9 @@ class CharacterCreationSerializer(serializers.ModelSerializer):
             "intellect",
             "agility",
         ]
-        extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        vocation = get_object_or_404(
-            Vocation, pk=validated_data["vocation"].id
-        )
+        vocation = get_object_or_404(Vocation, pk=validated_data["vocation"].id)
         validated_data = vocation_status_modifier(10, vocation, validated_data)
         return Character.objects.create(**validated_data)
 
@@ -57,4 +54,3 @@ class CharacterUpdateSerializer(serializers.ModelSerializer):
             "intellect",
             "agility",
         ]
-        extra_kwargs = {"password": {"write_only": True}}
