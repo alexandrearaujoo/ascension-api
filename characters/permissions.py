@@ -1,3 +1,4 @@
+from xmlrpc.client import ResponseError
 from characters.models import Character
 from rest_framework import permissions
 from django.shortcuts import get_object_or_404
@@ -25,9 +26,9 @@ class IsAdmin(permissions.BasePermission):
 
 class isRealAccountOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        character = get_object_or_404(Character, nickname=request.data["nickname"])
-        account = Account.objects.get(username=request.user.username)
         try:
+            character = get_object_or_404(Character, nickname=request.data["nickname"])
+            account = Account.objects.get(username=request.user.username)
             account_find = account.characters.get(nickname=character.nickname)
         except:
             return False

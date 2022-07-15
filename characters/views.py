@@ -51,6 +51,9 @@ class PatchMissionCharacterView(APIView):
 
         if character.level < mission.level_required:
             return Response({"message": "You are too low level for this mission"})
+        
+        if mission in character.missions.all():
+            return Response({"message": "You already have this mission"}, status=status.HTTP_409_CONFLICT)
 
         success_chance = round(random.random())
 
@@ -84,7 +87,7 @@ class PatchMissionCharacterView(APIView):
 
         response = {"message": "Mission Failed"}
 
-        return Response(response)
+        return Response(response, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 class BuyItemForCharacterView(generics.UpdateAPIView):
