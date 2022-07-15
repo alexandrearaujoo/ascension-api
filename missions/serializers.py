@@ -19,7 +19,6 @@ class MissionSerializer(serializers.ModelSerializer):
             "level_required",
             "gold",
             "created_by",
-            "completed",
         ]
         extra_kwargs = {
             "experience": {"validators": [MinValueValidator(0)]},

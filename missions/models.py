@@ -7,7 +7,6 @@ class Missions(models.Model):
     experience = models.IntegerField(null=False)
     level_required = models.IntegerField()
     gold = models.IntegerField()
-    completed = models.BooleanField(default=False)
 
     created_by = models.ForeignKey(
         "accounts.Account", on_delete=models.CASCADE, related_name="missions"

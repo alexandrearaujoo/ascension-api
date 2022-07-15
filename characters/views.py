@@ -1,4 +1,3 @@
-from functools import partial
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.views import Response, status
@@ -45,7 +44,7 @@ class PatchMissionCharacterView(APIView):
 
         try:
             character = get_object_or_404(
-                Character, username=self.request.data["username"]
+                Character, nickname=self.request.data["nickname"]
             )
         except Character.DoesNotExist:
             return Response({"message": "Character not found"})
@@ -56,18 +55,36 @@ class PatchMissionCharacterView(APIView):
         success_chance = round(random.random())
 
         if success_chance >= 0.2:
-            mission.completed = True
 
-        character.missions.add(mission)
-        character.save()
+            character.experience += mission.experience
+            character.gold += mission.gold
 
-        character_serializer = CharacterCreationSerializer(
-            character, request.data, partial=True
-        )
+            if character.experience >= 100:
+                character.level += 1
+                character.experience -= 100
 
-        character_serializer.is_valid()
+            character.missions.add(mission)
 
-        return Response(character_serializer.data)
+            character.save()
+
+            character_serializer = CharacterCreationSerializer(
+                character, request.data, partial=True
+            )
+
+            character_serializer.is_valid()
+
+            response = {
+                "message": "Mission succeded",
+                "current level": character_serializer.data["level"],
+                "current gold": character_serializer.data["gold"],
+                "current experience": character_serializer.data["experience"],
+            }
+
+            return Response(response)
+
+        response = {"message": "Mission Failed"}
+
+        return Response(response)
 
 
 class BuyItemForCharacterView(generics.UpdateAPIView):
@@ -81,7 +98,7 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
         partial = kwargs.pop("partial", False)
 
         instance = self.get_object()
-        character = get_object_or_404(Character, username=self.request.data["username"])
+        character = get_object_or_404(Character, nickname=self.request.data["nickname"])
 
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
@@ -105,7 +122,9 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
 
     def perform_update(self, serializer):
         item = self.get_object()
-        character = Character.objects.get(username=self.request.data["username"])
+
+        character = Character.objects.get(nickname=self.request.data["nickname"])
+
         character.gold -= item.price
         character.save()
         serializer.save(owner=character)
