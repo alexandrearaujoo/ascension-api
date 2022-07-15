@@ -31,7 +31,6 @@ class ItemSerializer(serializers.ModelSerializer):
         return obj.artisan.name if obj.artisan else "Unidentified Artisan."
 
     def get_owner(self, obj):
-
         return obj.owner.nickname if obj.owner else "This item doesn't have an owner."
 
 
