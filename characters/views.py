@@ -78,9 +78,9 @@ class PatchMissionCharacterView(APIView):
 
             response = {
                 "message": "Mission succeded",
-                "current level": character_serializer.data["level"],
-                "current gold": character_serializer.data["gold"],
-                "current experience": character_serializer.data["experience"],
+                "current_level": character_serializer.data["level"],
+                "current_gold": character_serializer.data["gold"],
+                "current_experience": character_serializer.data["experience"],
             }
 
             return Response(response)
