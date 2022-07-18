@@ -7,18 +7,38 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('missions', '0003_remove_missions_completed'),
-        ('characters', '0002_rename_username_character_nickname_and_more'),
+        ("missions", "0003_remove_missions_completed"),
+        ("characters", "0002_rename_username_character_nickname_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CharactersMissions',
+            name="CharactersMissions",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('is_completed', models.BooleanField(default=False)),
-                ('character', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='characters.character')),
-                ('mission', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='missions.missions')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("is_completed", models.BooleanField(default=False)),
+                (
+                    "character",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="characters.character",
+                    ),
+                ),
+                (
+                    "mission",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="missions.missions",
+                    ),
+                ),
             ],
         ),
     ]

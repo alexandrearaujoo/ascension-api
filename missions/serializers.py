@@ -26,3 +26,16 @@ class MissionSerializer(serializers.ModelSerializer):
             "gold": {"validators": [MinValueValidator(0)]},
             "xp": {"validators": [MinValueValidator(0)]},
         }
+
+
+class GetMissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Missions
+        fields = [
+            "id",
+            "description",
+            "name",
+            "experience",
+            "level_required",
+            "gold",
+        ]
