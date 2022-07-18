@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.views import Response, status
 from rest_framework.authentication import TokenAuthentication
@@ -47,13 +48,21 @@ class PatchMissionCharacterView(APIView):
                 Character, nickname=self.request.data["nickname"]
             )
         except Character.DoesNotExist:
-            return Response({"message": "Character not found"})
+            return Response(
+                {"message": "Character not found"}, status.HTTP_404_NOT_FOUND
+            )
 
         if character.level < mission.level_required:
-            return Response({"message": "You are too low level for this mission"})
-        
+            return Response(
+                {"message": "You are too low level for this mission"},
+                status.HTTP_406_NOT_ACCEPTABLE,
+            )
+
         if mission in character.missions.all():
-            return Response({"message": "You already have this mission"}, status=status.HTTP_409_CONFLICT)
+            return Response(
+                {"message": "You already have this mission"},
+                status=status.HTTP_409_CONFLICT,
+            )
 
         success_chance = round(random.random())
 
@@ -62,7 +71,7 @@ class PatchMissionCharacterView(APIView):
             character.experience += mission.experience
             character.gold += mission.gold
 
-            if character.experience >= 100:
+            while character.experience >= 100:
                 character.level += 1
                 character.experience -= 100
 
@@ -131,3 +140,12 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
         character.gold -= item.price
         character.save()
         serializer.save(owner=character)
+
+
+class ListCharactersAccountView(generics.ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = CharacterUpdateSerializer
+
+    def get_queryset(self):
+        return Character.objects.filter(account=self.request.user)
