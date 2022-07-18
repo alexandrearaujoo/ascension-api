@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.views import Response, status
 from rest_framework.authentication import TokenAuthentication
@@ -139,3 +140,12 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
         character.gold -= item.price
         character.save()
         serializer.save(owner=character)
+
+
+class ListCharactersAccountView(generics.ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = CharacterUpdateSerializer
+
+    def get_queryset(self):
+        return Character.objects.filter(account=self.request.user)
