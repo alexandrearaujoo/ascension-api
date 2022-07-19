@@ -14,18 +14,26 @@ class TestItemsView(APITestCase):
 
     def setUp(self):
 
-        self.client.post("/api/accounts/register/", self.createAccount, format="json")
+        self.client.post(
+            "/api/accounts/register/", self.createAccount, format="json"
+        )
 
         login_data = {
             "username": self.createAccount["username"],
             "password": self.createAccount["password"],
         }
 
-        response = self.client.post("/api/accounts/login/", login_data, format="json")
+        response = self.client.post(
+            "/api/accounts/login/", login_data, format="json"
+        )
 
-        self.client.credentials(HTTP_AUTHORIZATION=f'Token {response.data["token"]}')
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f'Token {response.data["token"]}'
+        )
 
-        self.artisan = self.client.post("/api/artisans/", data={"name": "bryan"})
+        self.artisan = self.client.post(
+            "/api/artisans/", data={"name": "bryan"}
+        )
 
         self.artisan_id = self.artisan.json()["id"]
 

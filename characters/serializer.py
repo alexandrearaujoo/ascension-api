@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 from characters.helpers import vocation_status_modifier
 from vocations.models import Vocation
 
@@ -44,9 +45,21 @@ class CharacterCreationSerializer(serializers.ModelSerializer):
             "intellect",
             "agility",
         ]
+        extra_kwargs = {
+            "nickname": {
+                "validators": [
+                    UniqueValidator(
+                        queryset=Character.objects.all(),
+                        message="Nickname already exists.",
+                    )
+                ]
+            }
+        }
 
     def create(self, validated_data):
-        vocation = get_object_or_404(Vocation, pk=validated_data["vocation"].id)
+        vocation = get_object_or_404(
+            Vocation, pk=validated_data["vocation"].id
+        )
         validated_data = vocation_status_modifier(10, vocation, validated_data)
         return Character.objects.create(**validated_data)
 

@@ -110,9 +110,13 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
         partial = kwargs.pop("partial", False)
 
         instance = self.get_object()
-        character = get_object_or_404(Character, nickname=self.request.data["nickname"])
+        character = get_object_or_404(
+            Character, nickname=self.request.data["nickname"]
+        )
 
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=partial
+        )
         serializer.is_valid(raise_exception=True)
 
         if character.gold < instance.price:
@@ -120,19 +124,19 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
                 {"message": "You don't have gold to buy this item."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        
+
         if character.level < instance.level_required:
             return Response(
                 {"message": "You don't have level enought to buy this item."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        
+
         if instance.owner is not None:
             return Response(
                 {"message": "This item already have an owner."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        
+
         self.perform_update(serializer)
 
         if getattr(instance, "_prefetched_objects_cache", None):
@@ -143,7 +147,9 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
     def perform_update(self, serializer):
         item = self.get_object()
 
-        character = Character.objects.get(nickname=self.request.data["nickname"])
+        character = Character.objects.get(
+            nickname=self.request.data["nickname"]
+        )
 
         character.gold -= item.price
         character.save()

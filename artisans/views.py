@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 
@@ -33,6 +34,6 @@ class ArtisanCreateItem(generics.CreateAPIView):
     queryset = Item.objects.all()
 
     def perform_create(self, serializer):
-        artisan = Artisan.objects.get(pk=self.kwargs["pk"])
+        artisan = get_object_or_404(Artisan, pk=self.kwargs["pk"])
 
         serializer.save(artisan=artisan)
