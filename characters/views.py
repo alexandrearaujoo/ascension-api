@@ -115,17 +115,25 @@ class BuyItemForCharacterView(generics.UpdateAPIView):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
 
-        if (
-            character.gold >= instance.price
-            and character.level >= instance.level_required
-            and instance.owner is None
-        ):
-            self.perform_update(serializer)
-        else:
+        if character.gold < instance.price:
             return Response(
-                {"message": "You can't buy this item."},
+                {"message": "You don't have gold to buy this item."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        
+        if character.level < instance.level_required:
+            return Response(
+                {"message": "You don't have level enought to buy this item."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        if instance.owner is not None:
+            return Response(
+                {"message": "This item already have an owner."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        self.perform_update(serializer)
 
         if getattr(instance, "_prefetched_objects_cache", None):
             instance._prefetched_objects_cache = {}
