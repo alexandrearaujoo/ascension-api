@@ -32,7 +32,7 @@ Com as dependências instaladas, rode o seguinte comando para levantar o servido
 
 Agora basta testar os endpoints no insomnia seguindo a documentação:
 
-[Colocar aqui link da doc]
+https://api-ascension.herokuapp.com/api/docs/
 
 ## Como rodar os testes do projeto:
 
