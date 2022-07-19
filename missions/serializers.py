@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 from django.core.validators import MinValueValidator
 
 from accounts.serializer import AccountInMissionsSerializer
@@ -25,6 +26,14 @@ class MissionSerializer(serializers.ModelSerializer):
             "level_required": {"validators": [MinValueValidator(0)]},
             "gold": {"validators": [MinValueValidator(0)]},
             "xp": {"validators": [MinValueValidator(0)]},
+            "name": {
+                "validators": [
+                    UniqueValidator(
+                        queryset=Missions.objects.all(),
+                        message="This mission already exists.",
+                    )
+                ]
+            },
         }
 
 

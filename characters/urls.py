@@ -16,5 +16,5 @@ urlpatterns = [
         "accounts/characters/items/<pk>/",
         views.BuyItemForCharacterView.as_view(),
     ),
-    path("accounts/profile/", views.ListCharactersAccountView.as_view())
+    path("accounts/profile/", views.ListCharactersAccountView.as_view()),
 ]

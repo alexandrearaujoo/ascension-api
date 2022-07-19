@@ -26,16 +26,22 @@ class TestViews(APITestCase):
         }
 
     def setUp(self) -> None:
-        self.client.post("/api/accounts/register/", self.account, format="json")
+        self.client.post(
+            "/api/accounts/register/", self.account, format="json"
+        )
 
         login_data = {
             "username": self.account["username"],
             "password": self.account["password"],
         }
 
-        response = self.client.post("/api/accounts/login/", login_data, format="json")
+        response = self.client.post(
+            "/api/accounts/login/", login_data, format="json"
+        )
 
-        self.client.credentials(HTTP_AUTHORIZATION=f'Token {response.data["token"]}')
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f'Token {response.data["token"]}'
+        )
 
     def test_list_artisans(self):
 
@@ -73,7 +79,9 @@ class TestViews(APITestCase):
         self.assertEqual(response.data["name"], self.item["name"])
         self.assertEqual(response.data["price"], self.item["price"])
         self.assertEqual(response.data["type"], self.item["type"])
-        self.assertEqual(response.data["level_required"], self.item["level_required"])
+        self.assertEqual(
+            response.data["level_required"], self.item["level_required"]
+        )
 
     def test_update_artisan(self):
         response = self.client.patch(

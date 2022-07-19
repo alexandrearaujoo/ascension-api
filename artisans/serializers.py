@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from .models import Artisan
 
@@ -12,3 +13,13 @@ class ArtisanSerializer(serializers.ModelSerializer):
         model = Artisan
         fields = ["id", "name", "items"]
         read_only_fields = ["id"]
+        extra_kwargs = {
+            "name": {
+                "validators": [
+                    UniqueValidator(
+                        queryset=Artisan.objects.all(),
+                        message="This artisan already exists.",
+                    )
+                ]
+            }
+        }

@@ -25,4 +25,6 @@ class Character(models.Model):
         related_name="characters",
     )
 
-    missions = models.ManyToManyField("missions.Missions", related_name="characters")
+    missions = models.ManyToManyField(
+        "missions.Missions", related_name="characters"
+    )
