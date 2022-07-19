@@ -54,6 +54,7 @@ class CharacterCreationSerializer(serializers.ModelSerializer):
 class CharacterUpdateSerializer(serializers.ModelSerializer):
     account = AccountSerializer(read_only=True)
     vocation = VocationSerializer(read_only=True)
+    missions = GetMissionSerializer(read_only=True, many=True)
     items = ItemSerializer(read_only=True, many=True)
 
     class Meta:
