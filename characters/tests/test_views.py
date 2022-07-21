@@ -31,15 +31,13 @@ class TestCharacterView(APITestCase):
         res = self.client.post(
             "/api/accounts/characters/",
             data={
-                "username": "Rainha Mara",
-                "password": "1234",
-                "vocation": 1,
+                "nickname": "Rainha Mara",
+                "vocation": self.vocation_one.id,
             },
         )
 
         self.assertEqual(res.status_code, 201)
         self.assertIn("id", res.json())
-        self.assertNotIn("password", res.json())
 
     def test_characters_success_creation_common_user(self):
         self.client.credentials(
@@ -49,15 +47,14 @@ class TestCharacterView(APITestCase):
         res = self.client.post(
             "/api/accounts/characters/",
             data={
-                "username": "Rainha Mara",
-                "password": "1234",
-                "vocation": 1,
+                "nickname": "Rainha Mara",
+                "vocation": self.vocation_one.id,
             },
         )
 
         self.assertEqual(res.status_code, 201)
         self.assertIn("id", res.json())
-        self.assertNotIn("password", res.json())
+
 
     def test_characters_creation_with_missing_keys(self):
         self.client.credentials(
@@ -69,8 +66,7 @@ class TestCharacterView(APITestCase):
             data={},
         )
         self.assertEqual(res.status_code, 400)
-        self.assertIn("username", res.json())
-        self.assertIn("password", res.json())
+        self.assertIn("nickname", res.json())
         self.assertIn("vocation", res.json())
 
     def test_characters_creation_without_token(self):

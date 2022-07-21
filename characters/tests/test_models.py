@@ -7,16 +7,9 @@ from characters.models import Character
 class CharacterModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-
-        cls.username = "Eragon"
-        cls.password = "12345"
-        cls.level = 1
-        cls.experience = 10
-        cls.gold = 100
-        cls.health_points = 10
-        cls.strength = 20
-        cls.intellect = 5
-        cls.agility = 10
+        cls.username = "Teste"
+        cls.password = "1234"
+        cls.nickname = "Eragon"
 
         cls.name = "Craftsman"
         cls.intellect_modifier = 10.00
@@ -33,38 +26,24 @@ class CharacterModelTest(TestCase):
             agility_modifier=cls.agility_modifier,
         )
         cls.characters = Character.objects.create(
-            username=cls.username,
-            password=cls.password,
-            vocation=cls.vocation,
-            account=cls.account,
-            level=cls.level,
-            experience=cls.experience,
-            gold=cls.gold,
-            health_points=cls.health_points,
-            strength=cls.strength,
-            intellect=cls.intellect,
-            agility=cls.agility,
+            nickname=cls.nickname,
+            vocation=cls.vocation.id,
+            account=cls.account
         )
 
     def test_username_basic(self):
         character = Character.objects.get(id=1)
-        max_length = character._meta.get_field("username").max_length
-        unique = character._meta.get_field("username").unique
+        max_length = character._meta.get_field("nickname").max_length
+        unique = character._meta.get_field("nickname").unique
         self.assertEquals(max_length, 50)
         self.assertEquals(unique, True)
-
-    def test_password_basic(self):
-        character = Character.objects.get(id=1)
-        max_length = character._meta.get_field("password").max_length
-        self.assertEquals(max_length, 255)
 
     def test_character_creation_full(self):
 
         character = Character.objects.get(id=1)
 
         testModel = {
-            character.username,
-            character.password,
+            character.nickname,
             character.level,
             character.experience,
             character.gold,
@@ -75,8 +54,7 @@ class CharacterModelTest(TestCase):
         }
 
         clsModel = {
-            self.username,
-            self.password,
+            self.nickname,
             self.level,
             self.experience,
             self.gold,

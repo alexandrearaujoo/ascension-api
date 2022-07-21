@@ -34,7 +34,7 @@ class TestMissionsView(APITestCase):
             created_by=cls.created_by,
         )
 
-        cls.username = "bryan"
+        cls.nickname = "bryan"
         cls.password = "1234"
         cls.level = 1
         cls.experience = 10
@@ -57,8 +57,7 @@ class TestMissionsView(APITestCase):
         )
 
         Character.objects.create(
-            username=cls.username,
-            password=cls.password,
+            nickname=cls.nickname,
             vocation=cls.vocation,
             account=cls.account,
             level=cls.level,
@@ -120,5 +119,6 @@ class TestMissionsView(APITestCase):
         self.assertEqual(res.json()["description"], newDescription)
 
     def test_listing_a_characters_missions(self):
-        res = self.client.get("/api/missions/patron/2/")
+        res = self.client.get("/api/missions/patron/1/")
+
         self.assertEqual(res.status_code, 200)
